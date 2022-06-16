@@ -1,6 +1,6 @@
 const authRouter = require('express').Router();
 const User = require('../models/user');
-const {calculateToken} = require('../helpers/users');
+const {calculateToken, calculateJWTToken} = require('../helpers/users');
 
 authRouter.post('/login', (req, res) => {
   const { email, password } = req.body;
@@ -10,8 +10,7 @@ authRouter.post('/login', (req, res) => {
       User.verifyPassword(password, user.hashedPassword).then(
         (passwordIsCorrect) => {
           if (passwordIsCorrect) {
-            const token = calculateToken(email);
-            User.update(user.id, {token: token})
+            const token = calculateJWTToken(user)
             res.cookie('user_token', token)
             res.send("You are logged in")
           }

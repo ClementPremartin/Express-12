@@ -39,7 +39,7 @@ const findMany = ({ filters: { color, max_duration, token } }) => {
 
 const findOne = (id) => {
   return db
-    .query('SELECT * FROM movies WHERE id = ?', [id])
+    .query( 'SELECT id, email, firstname, lastname, city, language FROM users WHERE id = ?', [id])
     .then(([results]) => results[0]);
 };
 
@@ -49,7 +49,7 @@ const findByToken = (token) => {
     .then(([results]) => results[0]);
 };
 
-const create = ({ title, director, year, color, duration}, user_id) => {
+const create = ({ title, director, year, color, duration, user_id}) => {
   return db
     .query(
       'INSERT INTO movies (title, director, year, color, duration, user_id) VALUES (?, ?, ?, ?, ?, ?)',
